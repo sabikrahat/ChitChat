@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "35886991077",
+    "project_id": "chitchat-flutter-sabikrahat",
+    "storage_bucket": "chitchat-flutter-sabikrahat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35886991077:android:e5f12628c7e75a2147760c",
+        "android_client_info": {
+          "package_name": "com.sabikrahat.chitchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35886991077-mdvn54687nds2c83ksdbgo4jfbrojjmk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sabikrahat.chitchat",
+            "certificate_hash": "7570bcc35dd923b36f96dcefa8b9c6788d61d66c"
+          }
+        },
+        {
+          "client_id": "35886991077-vciv1sfo7fdbfubjvdmatukhhkuusvhe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgVuFseodZPFd_R1GuPJK1sEW4SHMLCtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35886991077-vciv1sfo7fdbfubjvdmatukhhkuusvhe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
