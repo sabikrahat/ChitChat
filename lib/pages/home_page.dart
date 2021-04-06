@@ -496,9 +496,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   ],
                 ),
               ),
-              body: Center(
-                child: Text("Hello from ChitChat app.\nTotal Users: " +
-                    usersProfileList.length.toString()),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        "Hey " + currentUser.username + ", " + greeting(),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          letterSpacing: 2.0,
+                          fontFamily: "Signatra",
+                          fontSize: 25.0,
+                        ),
+                      ),
+                    ),
+                    showPosts(),
+                  ],
+                ),
               ),
             );
           },
@@ -506,6 +522,28 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       },
     );
   }
+
+  String greeting() {
+    var timeNow = DateTime.now().hour;
+    if (timeNow > 3 && timeNow <= 12) {
+      return 'Good Morning!';
+    } else if ((timeNow > 12) && (timeNow <= 16)) {
+      return 'Good Afternoon!';
+    } else if ((timeNow > 16) && (timeNow <= 20)) {
+      return 'Good Evening!';
+    } else {
+      return 'Good Night!';
+    }
+  }
+
+Widget showPosts() {
+  return StreamBuilder(
+    stream: null,
+    builder: (context, snapshot) {
+      return Text("");
+    },
+  );
+}
 
   Future<void> scanQrCode() async {
     try {

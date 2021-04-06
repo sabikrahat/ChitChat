@@ -49,7 +49,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             return Center(child: circularProgress());
           }
           snapshot.data.docs.forEach((doc) {
-            _tagList.add(doc.id.toString());
+            _tagList.add(doc['tagName'].toString());
           });
           print(_tagList.length);
           return Scaffold(
@@ -491,6 +491,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
     await _compressingPhoto();
 
     String _downloadUrl = await uploadPhoto(_file);
+
+    postsReference.doc(_tag).set({
+      "tagName": _tag,
+    });
 
     postsReference.doc(_tag).collection(currentUser.uid).doc(postId).set({
       "postId": postId,
