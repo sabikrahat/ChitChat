@@ -536,14 +536,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
-Widget showPosts() {
-  return StreamBuilder(
-    stream: null,
-    builder: (context, snapshot) {
-      return Text("");
-    },
-  );
-}
+  Widget showPosts() {
+    return StreamBuilder(
+      stream: null,
+      builder: (context, snapshot) {
+        return Text("");
+      },
+    );
+  }
 
   Future<void> scanQrCode() async {
     try {
@@ -554,19 +554,21 @@ Widget showPosts() {
         ScanMode.QR,
       );
       if (!mounted) return;
-
-      if (qrCode.length > 25) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProfilePage(
-              userUid: qrCode,
+      
+      usersReference.doc(qrCode).get().then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfilePage(
+                userUid: qrCode,
+              ),
             ),
-          ),
-        );
-      } else {
-        _showToast("Invalid User");
-      }
+          );
+        } else {
+          _showToast("No user found with QR Scanner credential");
+        }
+      });
     } catch (e) {
       _showToast(e.toString());
     }
@@ -621,7 +623,7 @@ Widget showPosts() {
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.grey[900],
       textColor: Colors.white,
-      fontSize: 15.0,
+      fontSize: 14.0,
     );
   }
 }
