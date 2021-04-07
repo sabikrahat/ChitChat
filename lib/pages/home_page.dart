@@ -538,8 +538,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget showPosts() {
     return StreamBuilder(
-      stream: null,
+      stream: postsReference.snapshots(),
       builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: circularProgress());
+        }
         return Text("");
       },
     );
@@ -554,8 +557,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ScanMode.QR,
       );
       if (!mounted) return;
-      
-      usersReference.doc(qrCode).get().then((DocumentSnapshot documentSnapshot) {
+
+      usersReference
+          .doc(qrCode)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           Navigator.push(
             context,
@@ -570,7 +576,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         }
       });
     } catch (e) {
-      _showToast(e.toString());
+      _showToast("No user found with QR Scanner credential");
     }
   }
 
@@ -619,7 +625,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   _showToast(message) {
     Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_SHORT,
+      toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: Colors.grey[900],
       textColor: Colors.white,
