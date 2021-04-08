@@ -6,6 +6,7 @@ import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_string/random_string.dart';
 
 class MessagingScreen extends StatefulWidget {
@@ -292,7 +293,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _showToast("Will updated later.");
+                              },
                               color: Colors.indigo[400],
                               textColor: Colors.white,
                               child: Icon(
@@ -315,7 +318,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _showToast("Will updated later.");
+                              },
                               color: Colors.indigo[400],
                               textColor: Colors.white,
                               child: Icon(
@@ -338,7 +343,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _showToast("Will updated later.");
+                              },
                               color: Colors.indigo[400],
                               textColor: Colors.white,
                               child: Icon(
@@ -369,7 +376,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _showToast("Will updated later.");
+                              },
                               color: Colors.indigo[400],
                               textColor: Colors.white,
                               child: Icon(
@@ -392,7 +401,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _showToast("Will updated later.");
+                              },
                               color: Colors.indigo[400],
                               textColor: Colors.white,
                               child: Icon(
@@ -415,7 +426,9 @@ class _MessagingScreenState extends State<MessagingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _showToast("Will updated later.");
+                              },
                               color: Colors.indigo[400],
                               textColor: Colors.white,
                               child: Icon(
@@ -443,6 +456,17 @@ class _MessagingScreenState extends State<MessagingScreen> {
           ),
         );
       },
+    );
+  }
+
+  _showToast(message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.grey[900],
+      textColor: Colors.white,
+      fontSize: 14.0,
     );
   }
 

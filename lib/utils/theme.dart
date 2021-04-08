@@ -10,8 +10,8 @@ ThemeData light = ThemeData(
   snackBarTheme: SnackBarThemeData(
     elevation: 20.0,
     backgroundColor: Colors.black87,
-    contentTextStyle: TextStyle(color: Colors.indigo[100]),
-    actionTextColor: Colors.indigo[300],
+    contentTextStyle: TextStyle(color: Colors.white),
+    actionTextColor: Colors.white,
   ),
   appBarTheme: AppBarTheme(
     brightness: Brightness.dark,
@@ -30,8 +30,8 @@ ThemeData dark = ThemeData(
   snackBarTheme: SnackBarThemeData(
     elevation: 20.0,
     backgroundColor: Colors.black87,
-    contentTextStyle: TextStyle(color: Colors.indigo[100]),
-    actionTextColor: Colors.indigo[300],
+    contentTextStyle: TextStyle(color: Colors.white),
+    actionTextColor: Colors.white,
   ),
   appBarTheme: AppBarTheme(
     iconTheme: IconThemeData(

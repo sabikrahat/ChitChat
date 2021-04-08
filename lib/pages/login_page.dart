@@ -441,13 +441,14 @@ class _LoginPageState extends State<LoginPage> {
           "email": user.email,
           "intro": "",
           "location": "",
-          "timeStamp": DateTime.now().toString(),
+          "timeStamp": DateTime.now(),
           "type": "googleLogin",
           "status": "offline",
           "tokenId": "",
           "totalPost": 0,
           "totalStar": 0,
           "totalPoint": 0,
+          "tags": ['welcome'],
         });
         setState(() {
           _isLoading = false;

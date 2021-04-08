@@ -16,7 +16,6 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
       email,
       intro,
       location,
-      timeStamp,
       type,
       status,
       tokenId,
@@ -36,7 +35,6 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
     email = await SharedPreferenceHelper().getUserEmail();
     intro = await SharedPreferenceHelper().getUserIntro();
     location = await SharedPreferenceHelper().getUserLocation();
-    timeStamp = await SharedPreferenceHelper().getUserTimestamp();
     type = await SharedPreferenceHelper().getUserType();
     status = await SharedPreferenceHelper().getUserStatus();
     tokenId = await SharedPreferenceHelper().getUserTokenId();
@@ -102,10 +100,6 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text("Location: $location"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("TimeStamp: $timeStamp"),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

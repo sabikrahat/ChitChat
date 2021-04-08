@@ -53,11 +53,6 @@ class SharedPreferenceHelper {
     return prefs.setString(userLocationKey, location);
   }
 
-  Future<bool> saveUserTimeStamp(String timeStamp) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setString(userTimeStampKey, timeStamp);
-  }
-
   Future<bool> saveUserType(String type) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(userTypeKey, type);
@@ -123,11 +118,6 @@ class SharedPreferenceHelper {
     }
 
     temp = await prefs.setString(userLocationKey, userProfile.location);
-    if (!temp) {
-      return false;
-    }
-
-    temp = await prefs.setString(userTimeStampKey, userProfile.timeStamp);
     if (!temp) {
       return false;
     }
@@ -201,11 +191,6 @@ class SharedPreferenceHelper {
     return prefs.getString(userLocationKey);
   }
 
-  Future<String> getUserTimestamp() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userTimeStampKey);
-  }
-
   Future<String> getUserType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(userTypeKey);
@@ -247,13 +232,14 @@ class SharedPreferenceHelper {
       email: prefs.getString(userEmailKey),
       intro: prefs.getString(userIntroKey),
       location: prefs.getString(userLocationKey),
-      timeStamp: prefs.getString(userTimeStampKey),
+      timeStamp: null,
       type: prefs.getString(userTypeKey),
       status: prefs.getString(userStatusKey),
       tokenId: prefs.getString(userTokenIdKey),
       totalPost: prefs.getInt(userTotalPostKey),
       totalStar: prefs.getInt(userTotalStarKey),
       totalPoint: prefs.getInt(userTotalPointKey),
+      tags: null,
     );
   }
 

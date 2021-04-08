@@ -383,13 +383,14 @@ class _RegisterPageState extends State<RegisterPage> {
       "email": user.email,
       "intro": "",
       "location": "",
-      "timeStamp": DateTime.now().toString(),
+      "timeStamp": DateTime.now(),
       "type": "firebaseLogin",
       "status": "offline",
       "tokenId": "",
       "totalPost": 0,
       "totalStar": 0,
       "totalPoint": 0,
+      "tags": ['welcome'],
     });
     setState(() {
       _isLoading = false;

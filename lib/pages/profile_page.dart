@@ -185,7 +185,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Total Points"),
-                        Text("💰  " + _showProfileList[0].totalPoint.toString()),
+                        Text(
+                            "💰  " + _showProfileList[0].totalPoint.toString()),
                       ],
                     ),
                   ),
@@ -194,61 +195,30 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 2.0, bottom: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // ignore: deprecated_member_use
-                  OutlineButton(
-                    splashColor: Colors.indigo[400],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    highlightElevation: 0,
-                    borderSide: BorderSide(color: Colors.indigo[400]),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      child: Text(
-                        _ownProfile
-                            ? "  ✒️ Edit Profile   "
-                            : "     🌟 Star     ",
-                      ),
-                    ),
-                    onPressed: () {
-                      _ownProfile
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditProfile(),
-                              ),
-                            )
-                          :
-                          // Star Button Implement
-                          print("Star button tapped.");
-                    },
+              // ignore: deprecated_member_use
+              child: OutlineButton(
+                splashColor: Colors.indigo[400],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                highlightElevation: 0,
+                borderSide: BorderSide(color: Colors.indigo[400]),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8.0, bottom: 8.0, left: 50.0, right: 50.0),
+                  child: Text(
+                    _ownProfile ? "✒️ Edit Profile" : "💬 Message",
                   ),
-                  // ignore: deprecated_member_use
-                  OutlineButton(
-                    splashColor: Colors.indigo[400],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    highlightElevation: 0,
-                    borderSide: BorderSide(color: Colors.indigo[400]),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      child: Text(
-                        _ownProfile
-                            ? "         🔖 Saved         "
-                            : "   💬 Message   ",
-                      ),
-                    ),
-                    onPressed: () {
-                      _ownProfile
-                          ?
-                          // Saved Button Implement
-                          print("Saved button tapped")
-                          : sendMessageOptionClicked();
-                    },
-                  ),
-                ],
+                ),
+                onPressed: () {
+                  _ownProfile
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditProfile(),
+                          ),
+                        )
+                      : sendMessageOptionClicked();
+                },
               ),
             ),
           ],

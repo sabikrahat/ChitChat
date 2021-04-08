@@ -8,13 +8,14 @@ class UserProfile {
   final String email;
   final String intro;
   final String location;
-  final String timeStamp;
+  final Timestamp timeStamp;
   final String type;
   final String status;
   final String tokenId;
   final int totalPost;
   final int totalStar;
   final int totalPoint;
+  var tags = [];
 
   UserProfile({
     this.uid,
@@ -31,6 +32,7 @@ class UserProfile {
     this.totalPost,
     this.totalStar,
     this.totalPoint,
+    this.tags,
   });
 
   factory UserProfile.fromDocument(DocumentSnapshot doc) {
@@ -49,6 +51,7 @@ class UserProfile {
       totalPost: doc['totalPost'],
       totalStar: doc['totalStar'],
       totalPoint: doc['totalPoint'],
+      tags: doc['tags'],
     );
   }
 }

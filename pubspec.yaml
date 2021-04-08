@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  autocomplete_textfield: ^1.7.3
   barcode_widget: ^1.5.0
   cached_network_image: ^2.5.0
   cloud_firestore: ^0.16.0

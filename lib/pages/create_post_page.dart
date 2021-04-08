@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:chitchat/pages/home_page.dart';
 import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
   var _location;
   var postId;
   var _tag;
-  var _tagSelected;
   List<String> _tagList;
 
   @override
@@ -36,7 +36,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
     locationTextEditingController = TextEditingController();
     tagTextEditingController = TextEditingController();
     postId = Uuid().v4();
-    _tagList = [];
   }
 
   @override
@@ -48,6 +47,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
           if (!snapshot.hasData) {
             return Center(child: circularProgress());
           }
+          _tagList = [];
           snapshot.data.docs.forEach((doc) {
             _tagList.add(doc['tagName'].toString());
           });
@@ -60,6 +60,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 InkWell(
                   splashColor: Colors.white54,
                   onTap: () {
+                    setState(() {
+                      _tag = tagTextEditingController.text
+                          .toString()
+                          .toLowerCase()
+                          .trim();
+                    });
                     if (_file == null) {
                       _showSnackbar("You can't post empty content.");
                     } else {
@@ -142,87 +148,119 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 8.0, bottom: 8.0, left: 12.0, right: 12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: TextFormField(
-                            autofocus: false,
-                            keyboardType: TextInputType.text,
-                            controller: tagTextEditingController,
-                            // ignore: deprecated_member_use
-                            autovalidate: true,
-                            validator: (error) {
-                              if (error.trim().length > 0 &&
-                                  error.trim().length < 3) {
-                                return "tag is very short";
-                              } else if (error.trim().length > 9) {
-                                return "tag is very long";
-                              } else if (error.contains(" ")) {
-                                return "tag can't contain any space";
-                              } else if (error.toLowerCase() != error) {
-                                return "tag can't contain any capital letter";
-                              }
-                              return null;
-                            },
-                            onChanged: (value) {
-                              setState(() {
-                                _tag = value;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: "Tag",
-                              hintText: "Enter a new tag...",
-                              errorStyle: TextStyle(
-                                color: Colors.red,
-                                fontSize: 15.0,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                          ),
+                    // child: Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   children: [
+                    //     Expanded(
+                    //       flex: 5,
+                    //       child: TextFormField(
+                    //         autofocus: false,
+                    //         keyboardType: TextInputType.text,
+                    //         controller: tagTextEditingController,
+                    //         // ignore: deprecated_member_use
+                    //         autovalidate: true,
+                    //         validator: (error) {
+                    //           if (error.trim().length > 0 &&
+                    //               error.trim().length < 3) {
+                    //             return "tag is very short";
+                    //           } else if (error.trim().length > 9) {
+                    //             return "tag is very long";
+                    //           } else if (error.contains(" ")) {
+                    //             return "tag can't contain any space";
+                    //           } else if (error.toLowerCase() != error) {
+                    //             return "tag can't contain any capital letter";
+                    //           }
+                    //           return null;
+                    //         },
+                    //         onChanged: (value) {
+                    //           setState(() {
+                    //             _tag = value;
+                    //           });
+                    //         },
+                    //         decoration: InputDecoration(
+                    //           labelText: "Tag",
+                    //           hintText: "Enter a new tag...",
+                    //           errorStyle: TextStyle(
+                    //             color: Colors.red,
+                    //             fontSize: 15.0,
+                    //           ),
+                    //           border: OutlineInputBorder(
+                    //             borderRadius: BorderRadius.circular(10.0),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //       flex: 3,
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.only(left: 8.0),
+                    //         child: Container(
+                    //           decoration: BoxDecoration(
+                    //             border: Border.all(color: Colors.indigo[400]),
+                    //             borderRadius: BorderRadius.circular(10.0),
+                    //           ),
+                    //           child: Padding(
+                    //             padding: const EdgeInsets.only(
+                    //                 left: 8.0,
+                    //                 right: 8.0,
+                    //                 top: 3.0,
+                    //                 bottom: 3.0),
+                    //             child: DropdownButton(
+                    //               isExpanded: true,
+                    //               hint: Text("Select tag"),
+                    //               value: _tagSelected,
+                    //               onChanged: (newValue) {
+                    //                 setState(() {
+                    //                   _tagSelected = newValue;
+                    //                   tagTextEditingController.text = newValue;
+                    //                   _tag = newValue;
+                    //                 });
+                    //               },
+                    //               items: _tagList.map((valueItem) {
+                    //                 return DropdownMenuItem(
+                    //                   value: valueItem,
+                    //                   child: Text("#" + valueItem),
+                    //                 );
+                    //               }).toList(),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    child: AutoCompleteTextField(
+                      key: null,
+                      controller: tagTextEditingController,
+                      clearOnSubmit: false,
+                      suggestions: _tagList,
+                      decoration: InputDecoration(
+                        labelText: "Tag",
+                        hintText: "Enter a new tag...",
+                        errorStyle: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15.0,
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.indigo[400]),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 3.0,
-                                    bottom: 3.0),
-                                child: DropdownButton(
-                                  isExpanded: true,
-                                  hint: Text("Select tag"),
-                                  value: _tagSelected,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      _tagSelected = newValue;
-                                      tagTextEditingController.text = newValue;
-                                      _tag = newValue;
-                                    });
-                                  },
-                                  items: _tagList.map((valueItem) {
-                                    return DropdownMenuItem(
-                                      value: valueItem,
-                                      child: Text("#" + valueItem),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                          ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
-                      ],
+                      ),
+                      itemFilter: (item, query) {
+                        return item.startsWith(query.toLowerCase());
+                      },
+                      itemSorter: (a, b) {
+                        return a.compareTo(b);
+                      },
+                      itemSubmitted: (item) {
+                        tagTextEditingController.text = item;
+                      },
+                      itemBuilder: (context, item) {
+                        return ListTile(
+                          leading: Icon(Icons.arrow_right),
+                          title: Text("#" + item),
+                        );
+                      },
                     ),
                   ),
                   Padding(
@@ -500,7 +538,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
       "postId": postId,
       "ownerId": currentUser.uid,
       "timestamp": DateTime.now(),
-      "likes": {},
+      "likes": [],
       "description": _description ?? "",
       "location": _location ?? "",
       "url": _downloadUrl,
