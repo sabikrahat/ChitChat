@@ -97,6 +97,7 @@ class _TagChangeState extends State<TagChange> {
                         leading: Icon(Icons.tag),
                         title: Text(_tagList[index]),
                         trailing: InkWell(
+                          splashColor: Colors.indigo[400],
                           onTap: () {
                             if (_tagList.length > 1) {
                               setState(() {

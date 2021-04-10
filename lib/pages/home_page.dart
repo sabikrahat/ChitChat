@@ -131,7 +131,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             currentUser = UserProfile.fromDocument(snapshot.data);
             userTags = (currentUser.tags).toList();
             SharedPreferenceHelper().saveUserAllInfo(currentUser);
-            //SQLiteHelper.instance.insert(currentUser);
             return Scaffold(
               key: _scaffoldKey,
               appBar: AppBar(
@@ -504,6 +503,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 ),
               ),
               body: SingleChildScrollView(
+                physics: ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -511,7 +511,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
                         "Hey " + currentUser.username + ", " + greeting(),
-                        textAlign: TextAlign.start,
                         style: TextStyle(
                           letterSpacing: 2.0,
                           fontFamily: "Signatra",
@@ -557,10 +556,100 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         dataSnapshot.data.docs.forEach((doc) {
           postModelList.add(PostModel.fromDocument(doc));
         });
-        return Center(
-          child: Text(
-            "Total Tag size: " + postModelList.length.toString(),
-          ),
+        return ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: postModelList.length,
+          itemBuilder: (context, index) {
+            var tempShowPostList = usersProfileList
+                .where((user) => user.uid == postModelList[index].ownerId)
+                .toList();
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: InkWell(
+                splashColor: Colors.indigo[400],
+                onTap: () {},
+                child: Card(
+                  elevation: 5.0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: CachedNetworkImageProvider(
+                                tempShowPostList[0].photoUrl),
+                          ),
+                          title: Text(
+                            tempShowPostList[0].username,
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontFamily: "Signatra",
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          subtitle: Text(tempShowPostList[0].location),
+                          trailing: tempShowPostList[0].uid != currentUser.uid
+                              ? null
+                              : InkWell(
+                                  child: Icon(Icons.edit),
+                                  onTap: () {},
+                                ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: CachedNetworkImage(
+                            imageUrl: postModelList[index].url,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
+                        ListTile(
+                          leading: InkWell(
+                              splashColor: Colors.indigo[400],
+                              onTap: () {},
+                              child: Icon(Icons.star_outline_sharp)),
+                          title: postModelList[index].likes.length > 0
+                              ? Transform.translate(
+                                  offset: Offset(-16, 0),
+                                  child: Text(
+                                    "This post has gained " +
+                                        postModelList[index]
+                                            .likes
+                                            .length
+                                            .toString() +
+                                        " stars.",
+                                    style: TextStyle(fontSize: 13.0),
+                                  ),
+                                )
+                              : Transform.translate(
+                                  offset: Offset(-16, 0),
+                                  child: Text(
+                                    "Be the first contributer. Hit the star button.",
+                                    style: TextStyle(fontSize: 13.0),
+                                  ),
+                                ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 8.0, left: 8.0, bottom: 8.0),
+                          child: Text(postModelList[index].description,
+                              maxLines: 2, overflow: TextOverflow.ellipsis),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );

@@ -169,6 +169,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                     overflow: TextOverflow.ellipsis)
                 : Text(
                     widget.lastMessage,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
             trailing: Container(

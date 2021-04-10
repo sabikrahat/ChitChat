@@ -1,6 +1,5 @@
 import 'package:chitchat/models/user_profile.dart';
 import 'package:chitchat/utils/sharedpref_helper.dart';
-import 'package:chitchat/utils/sqlite_helper.dart';
 import 'package:flutter/material.dart';
 
 class CreateRoomPage extends StatefulWidget {
@@ -25,7 +24,6 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
 
   UserProfile tempShowUserProfile;
 
-  var sqflite = SQLiteHelper.instance.queryAll();
 
   getUserInfoFromSharedPreferences() async {
     uid = await SharedPreferenceHelper().getUserUid();
@@ -128,18 +126,6 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text("All Info: $tempShowUserProfile"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "SQLite Helper",
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 2.5,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("All Info SQLite: $sqflite"),
                       ),
                     ],
                   ),

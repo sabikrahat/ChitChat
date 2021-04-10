@@ -45,7 +45,6 @@ dependencies:
   provider: ^4.3.3
   random_string: ^2.1.0
   shared_preferences: ^0.5.12+4
-  sqflite: ^2.0.0+3
   uuid: ^2.0.0
 
 dev_dependencies:
