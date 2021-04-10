@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+List<String> allTagsList;
+
 class TagChange extends StatefulWidget {
   @override
   _TagChangeState createState() => _TagChangeState();
@@ -63,7 +65,15 @@ class _TagChangeState extends State<TagChange> {
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  showSearch(context: context, delegate: TagAddSearch());
+                  allTagsList = [];
+                  tagsReference.get().then((QuerySnapshot querySnapshot) {
+                    querySnapshot.docs.forEach((doc) {
+                      allTagsList.add((doc["tagName"]).toString());
+                    });
+                  }).then((_) {
+                    print(allTagsList.length.toString());
+                    showSearch(context: context, delegate: TagAddSearch());
+                  });
                 },
               ),
             ],
@@ -84,8 +94,8 @@ class _TagChangeState extends State<TagChange> {
                     return Card(
                       elevation: 5.0,
                       child: ListTile(
-                        leading: Icon(Icons.arrow_right),
-                        title: Text("#" + _tagList[index]),
+                        leading: Icon(Icons.tag),
+                        title: Text(_tagList[index]),
                         trailing: InkWell(
                           onTap: () {
                             if (_tagList.length > 1) {
@@ -130,8 +140,6 @@ class _TagChangeState extends State<TagChange> {
 }
 
 class TagAddSearch extends SearchDelegate {
-  var _allTagsList = [];
-
   TagAddSearch({
     String hintText = "Search Tag",
   }) : super(
@@ -171,19 +179,11 @@ class TagAddSearch extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     var finalTagList = [];
 
-    if (_allTagsList.length == 0) {
-      postsReference.get().then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          _allTagsList.add(doc["tagName"]);
-        });
-      });
-    }
-
-    var searchList = _allTagsList
+    var searchList = allTagsList
         .where((element) => element.toLowerCase().startsWith(query))
         .toList();
 
-    query.isEmpty ? finalTagList = _allTagsList : finalTagList = searchList;
+    query.isEmpty ? finalTagList = allTagsList : finalTagList = searchList;
 
     return finalTagList.isEmpty
         ? displayNoTagsFoundScreen()
@@ -203,19 +203,11 @@ class TagAddSearch extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     var finalTagList = [];
 
-    if (_allTagsList.length == 0) {
-      postsReference.get().then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          _allTagsList.add(doc["tagName"]);
-        });
-      });
-    }
-
-    var searchList = _allTagsList
+    var searchList = allTagsList
         .where((element) => element.toLowerCase().startsWith(query))
         .toList();
 
-    query.isEmpty ? finalTagList = _allTagsList : finalTagList = searchList;
+    query.isEmpty ? finalTagList = allTagsList : finalTagList = searchList;
 
     return finalTagList.isEmpty
         ? displayNoTagsFoundScreen()

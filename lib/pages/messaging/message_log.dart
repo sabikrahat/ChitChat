@@ -116,25 +116,9 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: gettingInfoStream,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Card(
-              margin:
-                  EdgeInsets.only(top: 4.0, bottom: 4.0, left: 8.0, right: 8.0),
-              elevation: 20.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(
-                    top: 25.0, bottom: 25.0, left: 20.0, right: 10.0),
-                child: linearProgress(),
-              ),
-            );
-          }
-          UserProfile tempProfile = UserProfile.fromDocument(snapshot.data);
-          messageLogUserProfileList.add(tempProfile);
+      stream: gettingInfoStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
           return Card(
             margin:
                 EdgeInsets.only(top: 4.0, bottom: 4.0, left: 8.0, right: 8.0),
@@ -142,48 +126,67 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),
             ),
-            child: ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MessagingScreen(
-                      targetUserUid: tempProfile.uid,
-                    ),
-                  ),
-                );
-              },
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(40),
-                child: Hero(
-                  tag: tempProfile.uid,
-                  child: Image.network(
-                    tempProfile.photoUrl,
-                    height: 45,
-                    width: 45,
-                  ),
-                ),
-              ),
-              title: Text(tempProfile.username),
-              subtitle: currentUser.uid == widget.lastMessageSender
-                  ? Text("You: " + widget.lastMessage,
-                      overflow: TextOverflow.ellipsis)
-                  : Text(
-                      widget.lastMessage,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-              trailing: Container(
-                height: 8.0,
-                width: 8.0,
-                decoration: BoxDecoration(
-                    color: tempProfile.status == "online"
-                        ? Colors.greenAccent
-                        : Colors.grey[600],
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-              ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: 25.0, bottom: 25.0, left: 20.0, right: 10.0),
+              child: linearProgress(),
             ),
           );
-        });
+        }
+        UserProfile tempProfile = UserProfile.fromDocument(snapshot.data);
+        messageLogUserProfileList.add(tempProfile);
+        return Card(
+          margin: EdgeInsets.only(top: 4.0, bottom: 4.0, left: 8.0, right: 8.0),
+          elevation: 20.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          child: ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MessagingScreen(
+                    targetUserUid: tempProfile.uid,
+                  ),
+                ),
+              );
+            },
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(40),
+              child: Hero(
+                tag: tempProfile.uid,
+                child: Image.network(
+                  tempProfile.photoUrl,
+                  height: 45,
+                  width: 45,
+                ),
+              ),
+            ),
+            title: Text(tempProfile.username),
+            subtitle: currentUser.uid == widget.lastMessageSender
+                ? Text("You: " + widget.lastMessage,
+                    overflow: TextOverflow.ellipsis)
+                : Text(
+                    widget.lastMessage,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+            trailing: Container(
+              height: 8.0,
+              width: 8.0,
+              decoration: BoxDecoration(
+                color: tempProfile.status == "online"
+                    ? Colors.greenAccent
+                    : Colors.grey[600],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   getInfo() async {

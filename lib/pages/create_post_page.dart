@@ -42,7 +42,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return StreamBuilder(
-        stream: postsReference.snapshots(),
+        stream: tagsReference.snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: circularProgress());
@@ -51,7 +51,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
           snapshot.data.docs.forEach((doc) {
             _tagList.add(doc['tagName'].toString());
           });
-          print(_tagList.length);
           return Scaffold(
             key: _scaffoldKey,
             appBar: AppBar(
@@ -148,88 +147,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 8.0, bottom: 8.0, left: 12.0, right: 12.0),
-                    // child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   children: [
-                    //     Expanded(
-                    //       flex: 5,
-                    //       child: TextFormField(
-                    //         autofocus: false,
-                    //         keyboardType: TextInputType.text,
-                    //         controller: tagTextEditingController,
-                    //         // ignore: deprecated_member_use
-                    //         autovalidate: true,
-                    //         validator: (error) {
-                    //           if (error.trim().length > 0 &&
-                    //               error.trim().length < 3) {
-                    //             return "tag is very short";
-                    //           } else if (error.trim().length > 9) {
-                    //             return "tag is very long";
-                    //           } else if (error.contains(" ")) {
-                    //             return "tag can't contain any space";
-                    //           } else if (error.toLowerCase() != error) {
-                    //             return "tag can't contain any capital letter";
-                    //           }
-                    //           return null;
-                    //         },
-                    //         onChanged: (value) {
-                    //           setState(() {
-                    //             _tag = value;
-                    //           });
-                    //         },
-                    //         decoration: InputDecoration(
-                    //           labelText: "Tag",
-                    //           hintText: "Enter a new tag...",
-                    //           errorStyle: TextStyle(
-                    //             color: Colors.red,
-                    //             fontSize: 15.0,
-                    //           ),
-                    //           border: OutlineInputBorder(
-                    //             borderRadius: BorderRadius.circular(10.0),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Expanded(
-                    //       flex: 3,
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.only(left: 8.0),
-                    //         child: Container(
-                    //           decoration: BoxDecoration(
-                    //             border: Border.all(color: Colors.indigo[400]),
-                    //             borderRadius: BorderRadius.circular(10.0),
-                    //           ),
-                    //           child: Padding(
-                    //             padding: const EdgeInsets.only(
-                    //                 left: 8.0,
-                    //                 right: 8.0,
-                    //                 top: 3.0,
-                    //                 bottom: 3.0),
-                    //             child: DropdownButton(
-                    //               isExpanded: true,
-                    //               hint: Text("Select tag"),
-                    //               value: _tagSelected,
-                    //               onChanged: (newValue) {
-                    //                 setState(() {
-                    //                   _tagSelected = newValue;
-                    //                   tagTextEditingController.text = newValue;
-                    //                   _tag = newValue;
-                    //                 });
-                    //               },
-                    //               items: _tagList.map((valueItem) {
-                    //                 return DropdownMenuItem(
-                    //                   value: valueItem,
-                    //                   child: Text("#" + valueItem),
-                    //                 );
-                    //               }).toList(),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     child: AutoCompleteTextField(
                       key: null,
                       controller: tagTextEditingController,
@@ -530,11 +447,11 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
     String _downloadUrl = await uploadPhoto(_file);
 
-    postsReference.doc(_tag).set({
+    tagsReference.doc(_tag).set({
       "tagName": _tag,
     });
 
-    postsReference.doc(_tag).collection(currentUser.uid).doc(postId).set({
+    postsReference.doc(postId).set({
       "postId": postId,
       "ownerId": currentUser.uid,
       "timestamp": DateTime.now(),
@@ -545,11 +462,16 @@ class _CreatePostPageState extends State<CreatePostPage> {
       "tag": _tag,
     });
 
+    var userTagList = currentUser.tags.toList();
+    if (!userTagList.contains(_tag)) {
+      userTagList.add(_tag);
+    }
     usersReference
         .doc(currentUser.uid)
         .update({
           "totalPost": currentUser.totalPost + 1,
           "totalPoint": currentUser.totalPoint + 5,
+          "tags": userTagList,
         })
         .then((value) => print("One Post Updated"))
         .catchError((error) => print("Failed to update post: $error"));

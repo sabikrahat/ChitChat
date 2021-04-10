@@ -1,5 +1,4 @@
 import 'package:chitchat/pages/edit_profile.dart';
-import 'package:chitchat/pages/home_page.dart';
 import 'package:chitchat/pages/tag_change.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,6 @@ class SettingsPage extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.edit),
                 title: Text("Edit Profile"),
-                subtitle: Text(currentUser.email),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -38,7 +36,6 @@ class SettingsPage extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.archive_rounded),
                 title: Text("Edit Tags"),
-                subtitle: Text("Select interested tag to see related post."),
                 onTap: () {
                   Navigator.push(
                     context,

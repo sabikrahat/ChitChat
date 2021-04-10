@@ -1,3 +1,4 @@
+import 'package:chitchat/models/post_model.dart';
 import 'package:chitchat/models/user_profile.dart';
 import 'package:chitchat/pages/create_room_page.dart';
 import 'package:chitchat/pages/notifications_page.dart';
@@ -25,11 +26,14 @@ import 'package:email_launcher/email_launcher.dart';
 
 final usersReference = FirebaseFirestore.instance.collection("users");
 final postsReference = FirebaseFirestore.instance.collection("posts");
+final tagsReference = FirebaseFirestore.instance.collection("tags");
 final chatRoomsReference = FirebaseFirestore.instance.collection("chatrooms");
 final storageReference = FirebaseStorage.instance.ref("Profile_Pictures");
 final postStorageReference = FirebaseStorage.instance.ref("Posts");
 UserProfile currentUser;
 List<UserProfile> usersProfileList;
+List<PostModel> postModelList;
+var userTags;
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,6 +42,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  Stream getPosts;
 
   @override
   void initState() {
@@ -122,7 +127,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 ),
               );
             }
+            userTags = [];
             currentUser = UserProfile.fromDocument(snapshot.data);
+            userTags = (currentUser.tags).toList();
             SharedPreferenceHelper().saveUserAllInfo(currentUser);
             //SQLiteHelper.instance.insert(currentUser);
             return Scaffold(
@@ -538,12 +545,23 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Widget showPosts() {
     return StreamBuilder(
-      stream: postsReference.snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+      stream: postsReference
+          .where('tag', whereIn: userTags)
+          .orderBy('timestamp', descending: true)
+          .snapshots(),
+      builder: (context, dataSnapshot) {
+        if (!dataSnapshot.hasData) {
           return Center(child: circularProgress());
         }
-        return Text("");
+        postModelList = [];
+        dataSnapshot.data.docs.forEach((doc) {
+          postModelList.add(PostModel.fromDocument(doc));
+        });
+        return Center(
+          child: Text(
+            "Total Tag size: " + postModelList.length.toString(),
+          ),
+        );
       },
     );
   }
