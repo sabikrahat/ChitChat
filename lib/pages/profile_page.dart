@@ -2,6 +2,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:chitchat/models/user_profile.dart';
 import 'package:chitchat/pages/edit_profile.dart';
 import 'package:chitchat/pages/messaging/messaging_screen.dart';
+import 'package:chitchat/pages/photo_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:chitchat/pages/home_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -69,17 +70,30 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Center(
               child: Hero(
-                tag: Key(_showProfileList[0].uid),
-                child: Container(
-                  margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                  width: size.width * 0.4,
-                  height: size.width * 0.4,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
-                          _showProfileList[0].photoUrl),
+                tag: Key(_showProfileList[0].photoUrl),
+                child: InkWell(
+                  splashColor: Colors.indigo[400],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImagePreviewer(
+                          photoUrl: _showProfileList[0].photoUrl,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: size.width * 0.4,
+                    height: size.width * 0.4,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(
+                            _showProfileList[0].photoUrl),
+                      ),
                     ),
                   ),
                 ),
