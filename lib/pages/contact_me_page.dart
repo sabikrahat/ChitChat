@@ -36,7 +36,7 @@ class _ContactMePageState extends State<ContactMePage> {
                 ? LinearProgressIndicator(
                     value: progress,
                     valueColor:
-                        AlwaysStoppedAnimation(Colors.indigoAccent[600]),
+                        AlwaysStoppedAnimation(Colors.indigoAccent[400]),
                   )
                 : Center(),
             Expanded(

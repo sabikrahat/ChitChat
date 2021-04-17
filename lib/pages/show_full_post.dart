@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitchat/models/post_model.dart';
+import 'package:chitchat/pages/edit_post.dart';
 import 'package:chitchat/pages/photo_viewer.dart';
 import 'package:chitchat/pages/profile_page.dart';
+import 'package:chitchat/pages/show_tag_posts.dart';
+import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
@@ -82,12 +85,24 @@ class _ShowFullPostState extends State<ShowFullPost> {
                       ),
                     ),
                   ),
-                  subtitle: Text(tempShowPostList[0].location),
+                  subtitle: Text(
+                    widget.postModel.location,
+                    style: TextStyle(fontSize: 11.0),
+                  ),
                   trailing: tempShowPostList[0].uid != currentUser.uid
                       ? null
                       : InkWell(
                           child: Icon(Icons.edit),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditPost(
+                                  postModel: widget.postModel,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                 ),
                 InkWell(
@@ -108,10 +123,7 @@ class _ShowFullPostState extends State<ShowFullPost> {
                       height: MediaQuery.of(context).size.height * 0.4,
                       child: CachedNetworkImage(
                         imageUrl: widget.postModel.url,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
+                        placeholder: (context, url) => circularProgress(),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
@@ -167,7 +179,16 @@ class _ShowFullPostState extends State<ShowFullPost> {
                   trailing: OutlineButton(
                     visualDensity: VisualDensity(horizontal: -4, vertical: -2),
                     splashColor: Colors.indigo[400],
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShowTagPosts(
+                            tag: widget.postModel.tag,
+                          ),
+                        ),
+                      );
+                    },
                     child: Text(
                       "#" + widget.postModel.tag,
                       style: TextStyle(fontSize: 13.0),

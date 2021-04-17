@@ -1,6 +1,7 @@
 import 'package:chitchat/models/post_model.dart';
 import 'package:chitchat/models/user_profile.dart';
 import 'package:chitchat/pages/create_room_page.dart';
+import 'package:chitchat/pages/edit_post.dart';
 import 'package:chitchat/pages/notifications_page.dart';
 import 'package:chitchat/pages/photo_viewer.dart';
 import 'package:chitchat/pages/profile_page.dart';
@@ -623,12 +624,24 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               ),
                             ),
                           ),
-                          subtitle: Text(tempShowPostList[0].location),
+                          subtitle: Text(
+                            postModelList[index].location,
+                            style: TextStyle(fontSize: 11.0),
+                          ),
                           trailing: tempShowPostList[0].uid != currentUser.uid
                               ? null
                               : InkWell(
                                   child: Icon(Icons.edit),
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditPost(
+                                          postModel: postModelList[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                         ),
                         Hero(
@@ -637,10 +650,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             height: MediaQuery.of(context).size.height * 0.4,
                             child: CachedNetworkImage(
                               imageUrl: postModelList[index].url,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(
-                                          value: downloadProgress.progress),
+                              placeholder: (context, url) => circularProgress(),
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.error),
                             ),

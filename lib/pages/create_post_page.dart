@@ -71,7 +71,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                       if (_tag == null || _tag == "") {
                         _showSnackbar("You can't post without a tag");
                       } else {
-                        _saveEditedInfoToFirestore();
+                        _saveInfoToFirestore();
                       }
                     }
                   },
@@ -99,6 +99,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  _isLoading ? linearProgress() : Text(""),
                   Padding(
                     padding: const EdgeInsets.only(top: 24.0, bottom: 8.0),
                     child: _file == null
@@ -255,10 +256,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         onPressed: _getCurrentUserLocation,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 6.0),
-                    child: _isLoading ? linearProgress() : Text(""),
                   ),
                 ],
               ),
@@ -423,8 +420,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
       //         "${mPlaceMark.postalCode}, ${mPlaceMark.country}";
 
       String completeAddressInfo = "${mPlaceMark.thoroughfare}, " +
-          "${mPlaceMark.subLocality}, ${mPlaceMark.locality}, " +
-          "${mPlaceMark.subAdministrativeArea}";
+          "${mPlaceMark.subLocality}, ${mPlaceMark.locality}";
 
       // String specificAddress =
       //     "${mPlaceMark.subLocality}, ${mPlaceMark.locality}, ${mPlaceMark.country}";
@@ -438,7 +434,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
     }
   }
 
-  _saveEditedInfoToFirestore() async {
+  _saveInfoToFirestore() async {
     setState(() {
       _isLoading = true;
     });
@@ -480,7 +476,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
       _isLoading = false;
     });
 
-    _showSnackbar("Profile updated successfully");
+    _showSnackbar("Post uploaded successfully");
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

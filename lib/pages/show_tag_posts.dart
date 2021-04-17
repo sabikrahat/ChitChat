@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitchat/models/post_model.dart';
+import 'package:chitchat/pages/edit_post.dart';
 import 'package:chitchat/pages/photo_viewer.dart';
 import 'package:chitchat/pages/profile_page.dart';
 import 'package:chitchat/pages/show_full_post.dart';
@@ -55,14 +56,7 @@ class _ShowTagPostsState extends State<ShowTagPosts> {
                 child: InkWell(
                   splashColor: Colors.indigo[400],
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ShowFullPost(
-                          postModel: postModelList[index],
-                        ),
-                      ),
-                    );
+                    _showBottomSheetOptions(postModelList[index]);
                   },
                   child: Card(
                     elevation: 5.0,
@@ -113,40 +107,36 @@ class _ShowTagPostsState extends State<ShowTagPosts> {
                                 ),
                               ),
                             ),
-                            subtitle: Text(tempShowPostList[0].location),
+                            subtitle: Text(
+                              postModelList[index].location,
+                              style: TextStyle(fontSize: 11.0),
+                            ),
                             trailing: tempShowPostList[0].uid != currentUser.uid
                                 ? null
                                 : InkWell(
                                     child: Icon(Icons.edit),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditPost(
+                                            postModel: postModelList[index],
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                           ),
-                          InkWell(
-                            splashColor: Colors.indigo[400],
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImagePreviewer(
-                                    photoUrl: postModelList[index].url,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Hero(
-                              tag: postModelList[index].url,
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: CachedNetworkImage(
-                                  imageUrl: postModelList[index].url,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
+                          Hero(
+                            tag: postModelList[index].url,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.4,
+                              child: CachedNetworkImage(
+                                imageUrl: postModelList[index].url,
+                                placeholder: (context, url) =>
+                                    circularProgress(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                             ),
                           ),
@@ -241,6 +231,63 @@ class _ShowTagPostsState extends State<ShowTagPosts> {
                 ),
               );
             },
+          ),
+        );
+      },
+    );
+  }
+
+  _showBottomSheetOptions(PostModel postModel) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "View As",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    letterSpacing: 1.8,
+                    fontFamily: "Signatra",
+                    fontSize: 27.0,
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.post_add_rounded),
+                  title: Text("View Full Post"),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowFullPost(
+                          postModel: postModel,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.remove_red_eye_outlined),
+                  title: Text("View Post's Photo"),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImagePreviewer(
+                          photoUrl: postModel.url,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },
