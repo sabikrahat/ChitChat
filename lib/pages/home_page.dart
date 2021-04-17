@@ -339,12 +339,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       onTap: () {
                         if (currentUser.type == "firebaseLogin") {
                           Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResetPasswordPage(),
-                            ),
-                          );
+                          _showBottomSheetResetPasswordOptions();
                         } else {
                           Navigator.pop(context);
                           _showSnackbar("Invalid for google sign-in user");
@@ -739,16 +734,52 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              right: 8.0, left: 8.0, bottom: 8.0),
+                              right: 8.0, left: 8.0, bottom: 5.0),
                           child: postModelList[index].description == ""
                               ? null
-                              : Text(
-                                  postModelList[index].description,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                  ),
+                              : ListView(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Divider(
+                                              color: Colors.indigo[400],
+                                              height: 1.5,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10.0),
+                                            child: Text(
+                                              "Caption",
+                                              style: TextStyle(
+                                                fontSize: 12.0,
+                                                color: Colors.indigo[400],
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Divider(
+                                              color: Colors.indigo[400],
+                                              height: 1.5,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      postModelList[index].description,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                       ],
@@ -758,6 +789,63 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               ),
             );
           },
+        );
+      },
+    );
+  }
+
+  _showBottomSheetResetPasswordOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Reset Password",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    letterSpacing: 1.8,
+                    fontFamily: "Signatra",
+                    fontSize: 27.0,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Text(
+                    "This is a security sensitive operation for that reason you will automatically signed out. A verification mail will sent to the email to verify you.\n\nDo you really want to proceed?",
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.warning_amber_rounded),
+                  title: Text("Confirm Proceed"),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ResetPasswordPage(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.cancel),
+                  title: Text("Cancel"),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

@@ -1,5 +1,6 @@
 import 'package:chitchat/pages/home_page.dart';
 import 'package:chitchat/pages/register_page.dart';
+import 'package:chitchat/pages/reset_password_page.dart';
 import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -192,7 +193,14 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.topRight,
                             child: InkWell(
                               splashColor: Colors.indigo[400],
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ResetPasswordPage(),
+                                  ),
+                                );
+                              },
                               child: Text(
                                 "Forget Password ?",
                                 style: TextStyle(

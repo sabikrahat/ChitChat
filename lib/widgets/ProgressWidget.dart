@@ -5,7 +5,7 @@ circularProgress() {
     alignment: Alignment.center,
     padding: EdgeInsets.only(top: 12.0),
     child: CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation(Colors.indigoAccent[400]),
+      valueColor: AlwaysStoppedAnimation(Colors.indigo[400]),
     ),
   );
 }
@@ -15,7 +15,7 @@ linearProgress() {
     alignment: Alignment.center,
     padding: EdgeInsets.only(top: 12.0, left: 5.0, right: 5.0),
     child: LinearProgressIndicator(
-      valueColor: AlwaysStoppedAnimation(Colors.indigoAccent[400]),
+      valueColor: AlwaysStoppedAnimation(Colors.indigo[400]),
     ),
   );
 }

@@ -199,12 +199,52 @@ class _ShowFullPostState extends State<ShowFullPost> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 8.0),
+                      const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 5.0),
                   child: widget.postModel.description == ""
                       ? null
-                      : Text(
-                          widget.postModel.description,
-                          style: TextStyle(fontSize: 15.0),
+                      : ListView(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Divider(
+                                      color: Colors.indigo[400],
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: Text(
+                                      "Caption",
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.indigo[400],
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Divider(
+                                      color: Colors.indigo[400],
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              widget.postModel.description,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                          ],
                         ),
                 ),
               ],
