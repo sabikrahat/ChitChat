@@ -157,16 +157,18 @@ class _TicTacToeState extends State<TicTacToe> {
     if (winner != -1) {
       if (winner == 1) {
         showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (_) => CustomDialog("Player 1 Won",
-                "Press the reset button to start again.", resetGame));
+          barrierDismissible: false,
+          context: context,
+          builder: (_) => CustomDialog(
+              "You Won", "Press the reset button to start again.", resetGame),
+        );
       } else {
         showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (_) => CustomDialog("Player 2 Won",
-                "Press the reset button to start again.", resetGame));
+          barrierDismissible: false,
+          context: context,
+          builder: (_) => CustomDialog("Sorry! You Lose",
+              "Press the reset button to start again.", resetGame),
+        );
       }
     }
 

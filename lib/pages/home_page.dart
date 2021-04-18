@@ -564,7 +564,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 .where((user) => user.uid == postModelList[index].ownerId)
                 .toList();
             return Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0),
               child: InkWell(
                 splashColor: Colors.indigo[400],
                 onTap: () {
