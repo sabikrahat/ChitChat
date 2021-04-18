@@ -7,6 +7,7 @@ import 'package:chitchat/pages/show_tag_posts.dart';
 import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ShowFullPost extends StatefulWidget {
   final PostModel postModel;
@@ -129,6 +130,39 @@ class _ShowFullPostState extends State<ShowFullPost> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Divider(
+                          color: Colors.indigo[400],
+                          height: 1.5,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          timeago.format(
+                            DateTime.fromMicrosecondsSinceEpoch(
+                              widget.postModel.timestamp.microsecondsSinceEpoch,
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.indigo[400],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Colors.indigo[400],
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 ListTile(
                   dense: true,
                   contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
@@ -144,6 +178,22 @@ class _ShowFullPostState extends State<ShowFullPost> {
                         } else {
                           likeList.add(currentUser.uid);
                           starts += 1;
+
+                          notificationsReference
+                              .doc(widget.postModel.ownerId +
+                                  "_chitchat_notifications_" +
+                                  widget.postModel.postId)
+                              .set({
+                            "ownerId": widget.postModel..ownerId,
+                            "likerId": currentUser.uid,
+                            "leadingUrl": currentUser.photoUrl,
+                            "data": widget.postModel.ownerId == currentUser.uid
+                                ? "You have gave yourself a star."
+                                : currentUser.username + " gave you a star.",
+                            "timestamp": DateTime.now(),
+                            "postId": widget.postModel.postId,
+                            "trailingUrl": widget.postModel.url,
+                          });
                         }
                         postsReference.doc(widget.postModel.postId).update({
                           "likes": likeList,

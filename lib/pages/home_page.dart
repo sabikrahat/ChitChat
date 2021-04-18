@@ -27,11 +27,14 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:email_launcher/email_launcher.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 final usersReference = FirebaseFirestore.instance.collection("users");
 final postsReference = FirebaseFirestore.instance.collection("posts");
 final tagsReference = FirebaseFirestore.instance.collection("tags");
 final chatRoomsReference = FirebaseFirestore.instance.collection("chatrooms");
+final notificationsReference =
+    FirebaseFirestore.instance.collection("notifications");
 final storageReference = FirebaseStorage.instance.ref("Profile_Pictures");
 final postStorageReference = FirebaseStorage.instance.ref("Posts");
 UserProfile currentUser;
@@ -651,6 +654,42 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Divider(
+                                  color: Colors.indigo[400],
+                                  height: 1.5,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: Text(
+                                  timeago.format(
+                                    DateTime.fromMicrosecondsSinceEpoch(
+                                      postModelList[index]
+                                          .timestamp
+                                          .microsecondsSinceEpoch,
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.indigo[400],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  color: Colors.indigo[400],
+                                  height: 1.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         ListTile(
                           dense: true,
                           contentPadding:
@@ -669,6 +708,24 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                 } else {
                                   likeList.add(currentUser.uid);
                                   starts += 1;
+
+                                  notificationsReference
+                                      .doc(postModelList[index].ownerId +
+                                          "_chitchat_notifications_" +
+                                          postModelList[index].postId)
+                                      .set({
+                                    "ownerId": postModelList[index].ownerId,
+                                    "likerId": currentUser.uid,
+                                    "leadingUrl": currentUser.photoUrl,
+                                    "data": postModelList[index].ownerId ==
+                                            currentUser.uid
+                                        ? "You have gave yourself a star."
+                                        : currentUser.username +
+                                            " gave you a star.",
+                                    "timestamp": DateTime.now(),
+                                    "postId": postModelList[index].postId,
+                                    "trailingUrl": postModelList[index].url,
+                                  });
                                 }
                                 postsReference
                                     .doc(postModelList[index].postId)

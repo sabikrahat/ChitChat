@@ -10,6 +10,7 @@ import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:chitchat/pages/home_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ProfilePage extends StatefulWidget {
   final String userUid;
@@ -447,6 +448,42 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.indigo[400],
+                                    height: 1.5,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Text(
+                                    timeago.format(
+                                      DateTime.fromMicrosecondsSinceEpoch(
+                                        _showProfilePostsList[index]
+                                            .timestamp
+                                            .microsecondsSinceEpoch,
+                                      ),
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.indigo[400],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.indigo[400],
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           ListTile(
                             dense: true,
                             contentPadding:
@@ -466,6 +503,29 @@ class _ProfilePageState extends State<ProfilePage> {
                                   } else {
                                     likeList.add(currentUser.uid);
                                     starts += 1;
+
+                                    notificationsReference
+                                        .doc(_showProfilePostsList[index]
+                                                .ownerId +
+                                            "_chitchat_notifications_" +
+                                            _showProfilePostsList[index].postId)
+                                        .set({
+                                      "ownerId":
+                                          _showProfilePostsList[index].ownerId,
+                                      "likerId": currentUser.uid,
+                                      "leadingUrl": currentUser.photoUrl,
+                                      "data": _showProfilePostsList[index]
+                                                  .ownerId ==
+                                              currentUser.uid
+                                          ? "You have gave yourself a star."
+                                          : currentUser.username +
+                                              " gave you a star.",
+                                      "timestamp": DateTime.now(),
+                                      "postId":
+                                          _showProfilePostsList[index].postId,
+                                      "trailingUrl":
+                                          _showProfilePostsList[index].url,
+                                    });
                                   }
                                   postsReference
                                       .doc(_showProfilePostsList[index].postId)

@@ -7,6 +7,7 @@ import 'package:chitchat/pages/show_full_post.dart';
 import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ShowTagPosts extends StatefulWidget {
   final String tag;
@@ -140,6 +141,42 @@ class _ShowTagPostsState extends State<ShowTagPosts> {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.indigo[400],
+                                    height: 1.5,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Text(
+                                    timeago.format(
+                                      DateTime.fromMicrosecondsSinceEpoch(
+                                        postModelList[index]
+                                            .timestamp
+                                            .microsecondsSinceEpoch,
+                                      ),
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.indigo[400],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: Colors.indigo[400],
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           ListTile(
                             dense: true,
                             contentPadding:
@@ -158,6 +195,24 @@ class _ShowTagPostsState extends State<ShowTagPosts> {
                                   } else {
                                     likeList.add(currentUser.uid);
                                     starts += 1;
+
+                                    notificationsReference
+                                        .doc(postModelList[index].ownerId +
+                                            "_chitchat_notifications_" +
+                                            postModelList[index].postId)
+                                        .set({
+                                      "ownerId": postModelList[index].ownerId,
+                                      "likerId": currentUser.uid,
+                                      "leadingUrl": currentUser.photoUrl,
+                                      "data": postModelList[index].ownerId ==
+                                              currentUser.uid
+                                          ? "You have gave yourself a star."
+                                          : currentUser.username +
+                                              " gave you a star.",
+                                      "timestamp": DateTime.now(),
+                                      "postId": postModelList[index].postId,
+                                      "trailingUrl": postModelList[index].url,
+                                    });
                                   }
                                   postsReference
                                       .doc(postModelList[index].postId)
