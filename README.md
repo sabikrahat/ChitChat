@@ -1,5 +1,8 @@
 # ChitChat
 
+![App UI](/chitchat.png)
+
+
 A Flutter social media application. In the Project I've used almost all the widgets, so far I know on present.
 There is a welcome page, login page, register page, chatting page, news-feed page, profile page, tic-tac-toe game page, webview page, settings page, reset password page. 
 
@@ -41,6 +44,3 @@ Dependencies I've used:
 - timeago: ^3.0.2
 - uuid: ^2.0.0
 
-### ChitChat App Final UI
-
-![App UI](/chitchat.png)
