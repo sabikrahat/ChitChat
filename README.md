@@ -10,11 +10,11 @@ I've tried my best. Hope you like it.
 
 ### APK Download
 
-    - ChitChat APK: [download](https://drive.google.com/uc?export=download&id=14KeK0t0zw_VlUtZ1pIfXUkTcvo8c72Ic)
+- ChitChat APK: [download](https://drive.google.com/uc?export=download&id=14KeK0t0zw_VlUtZ1pIfXUkTcvo8c72Ic)
 
 ### For More Details
 
-    - ChitChat Details: [details](https://sabikrahat72428.blogspot.com/2021/04/chitchat-social-media-app.html)
+- ChitChat Details: [details](https://sabikrahat72428.blogspot.com/2021/04/chitchat-social-media-app.html)
 
 ### APP Utils
 
