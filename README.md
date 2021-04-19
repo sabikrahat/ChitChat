@@ -8,6 +8,14 @@ There is a welcome page, login page, register page, chatting page, news-feed pag
 
 I've tried my best. Hope you like it.
 
+### APK Download
+
+    - ChitChat APK: [download](https://drive.google.com/uc?export=download&id=14KeK0t0zw_VlUtZ1pIfXUkTcvo8c72Ic)
+
+### For More Details
+
+    - ChitChat Details: [details](https://sabikrahat72428.blogspot.com/2021/04/chitchat-social-media-app.html)
+
 ### APP Utils
 
     - Flutter Channel stable: 2.0.5
