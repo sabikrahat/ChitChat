@@ -2,19 +2,24 @@
 
 ![App UI](/chitchat.png)
 
-
 A Flutter social media application. In the Project I've used almost all the widgets, so far I know at present.
-There is a welcome page, login page, register page, chatting page, news-feed page, profile page, tic-tac-toe game page, webview page, settings page, reset password page. 
+There is a welcome page, login page, register page, chatting page, news-feed page, profile page, tic-tac-toe game page, webview page, settings page, reset password page.
 
 I've tried my best. Hope you like it.
+
 
 ### APK Download
 
 - ChitChat APK: [download](https://drive.google.com/uc?export=download&id=14KeK0t0zw_VlUtZ1pIfXUkTcvo8c72Ic)
 
+### For Mockup Video
+
+- ChitChat Mockup: [youtube](https://youtu.be/UvmH488NQFA)
+
 ### For More Details
 
 - ChitChat Details: [details](https://sabikrahat72428.blogspot.com/2021/04/chitchat-social-media-app.html)
+
 
 ### APP Utils
 
@@ -51,4 +56,3 @@ Dependencies I've used:
 - shared_preferences: ^0.5.12+4
 - timeago: ^3.0.2
 - uuid: ^2.0.0
-
