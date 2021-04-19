@@ -1,6 +1,5 @@
 import 'package:chitchat/models/post_model.dart';
 import 'package:chitchat/models/user_profile.dart';
-import 'package:chitchat/pages/create_room_page.dart';
 import 'package:chitchat/pages/edit_post.dart';
 import 'package:chitchat/pages/notifications_page.dart';
 import 'package:chitchat/pages/photo_viewer.dart';
@@ -268,12 +267,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       title: Text("Create Room"),
                       onTap: () {
                         Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CreateRoomPage(),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => CreateRoomPage(),
+                        //   ),
+                        // );
+                        _showSnackbar("Will updated later.");
                       },
                     ),
                     ListTile(

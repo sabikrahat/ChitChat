@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chitchat/models/notification_model.dart';
 import 'package:chitchat/models/post_model.dart';
+import 'package:chitchat/pages/profile_page.dart';
 import 'package:chitchat/pages/show_full_post.dart';
 import 'package:chitchat/widgets/ProgressWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -58,11 +59,25 @@ class _NotificationsPageState extends State<NotificationsPage> {
                           _notificationListTileTapped(
                               notificationsModelList[index].postId);
                         },
-                        leading: Hero(
-                          tag: notificationsModelList[index].likerId,
-                          child: CircleAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                notificationsModelList[index].leadingUrl),
+                        leading: InkWell(
+                          splashColor: Colors.indigo[400],
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfilePage(
+                                  userUid:
+                                      notificationsModelList[index].likerId,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Hero(
+                            tag: notificationsModelList[index].likerId,
+                            child: CircleAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  notificationsModelList[index].leadingUrl),
+                            ),
                           ),
                         ),
                         title: Transform.translate(
