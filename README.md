@@ -3,10 +3,10 @@
 ![App UI](/chitchat.png)
 
 
-A Flutter social media application. In the Project I've used almost all the widgets, so far I know on present.
+A Flutter social media application. In the Project I've used almost all the widgets, so far I know at present.
 There is a welcome page, login page, register page, chatting page, news-feed page, profile page, tic-tac-toe game page, webview page, settings page, reset password page. 
 
-I've tired my best. Hope you like it.
+I've tried my best. Hope you like it.
 
 ### APP Utils
 
