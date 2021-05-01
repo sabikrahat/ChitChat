@@ -288,8 +288,6 @@ class _ShowFullPostState extends State<ShowFullPost> {
                             ),
                             Text(
                               widget.postModel.description,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 15.0,
                               ),
