@@ -16,6 +16,8 @@ I've tried my best. Hope you like it.
 
 - ChitChat Mockup: [youtube](https://youtu.be/UvmH488NQFA)
 
+![App Mockup](/chitchat.mp4)
+
 ### For More Details
 
 - ChitChat Details: [details](https://sabikrahat72428.blogspot.com/2021/04/chitchat-social-media-app.html)
