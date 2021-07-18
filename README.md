@@ -10,7 +10,7 @@ I've tried my best. Hope you like it.
 
 ### APK Download
 
-- ChitChat APK: [download](https://drive.google.com/uc?export=download&id=14KeK0t0zw_VlUtZ1pIfXUkTcvo8c72Ic)
+- ChitChat APK: [download](https://www.dropbox.com/s/7jf3x74b5g9f9a1/chitchat.apk)
 
 ### For Mockup Video
 
